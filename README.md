@@ -1,6 +1,8 @@
-# perception-cpp: a showcase
+# Driverless Perception Stack
 
-A write-up of my work on the C++ perception stack of **IIT Bombay Racing's** Formula Student driverless car. Perception turns raw **camera and LiDAR** data into a list of cones (**distance, direction, colour**) that SLAM and the planner consume.
+*Camera and LiDAR cone perception for a Formula Student driverless car, in C++.*
+
+A write-up of the C++ perception stack of **IIT Bombay Racing's** Formula Student driverless car. Perception turns raw **camera and LiDAR** data into a list of cones (**distance, direction, colour**) that SLAM and the planner consume.
 
 > **Note:** this repository contains documentation and diagrams only. The code lives in the team's private repository and is not reproduced here. The figures are schematic illustrations I drew to explain the ideas. They are not logged data, and this repo contains no measured benchmarks.
 
