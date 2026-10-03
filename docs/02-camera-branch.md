@@ -27,6 +27,32 @@ The car pitches under braking and acceleration. For each frame, the expected siz
 
 *Why size-based depth was weak: the same pixel error costs far more distance at range.*
 
+## Box validation
+
+Before any distance is computed, each detection must look like a cone:
+- The box shape must be taller than wide, like a cone.
+- The box must be neither tiny (noise) nor huge (a false positive).
+- Boxes cut off by the image edge are treated with care, because a clipped box misplaces the ground contact.
+
+Rejecting bad boxes here is cheaper and safer than trying to correct a bad range later.
+
+## Distance, direction and the car's frame
+
+1. **Direction** comes straight from the cone's horizontal position in the image and the camera's focal length.
+2. **Range** is the ground distance from IPM, corrected for how far off the optical axis the cone sits.
+3. The camera's own **yaw** is added, because the cameras are angled outward.
+4. The result is shifted by the camera's **mounting offsets** to the car's origin, then expressed again as distance and direction.
+
+Cones that fail IPM (for example a ray that points above the horizon, or a non-finite result) are dropped rather than clamped to a guess.
+
+## Two cameras
+
+In dual modes the left and right results are concatenated. Cones that land close to each other are treated as the same physical cone seen twice, and one copy is kept. Cones seen by only one camera are kept as they are.
+
+## Camera-only limits
+
+Colour is dependable, but distance still comes from geometry that assumes flat ground and a known camera height. That is why fusion with LiDAR exists: it fixes distance where geometry is weakest.
+
 ## Output
 
 Each cone leaves this branch as distance, direction and colour in the car's frame.

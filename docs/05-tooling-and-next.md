@@ -7,6 +7,9 @@
 - **Annotated camera output:** boxes with distance labels.
 - **Tuning dashboard:** parameter sweeps and error plots in a browser.
 - **Pitch tool:** estimates camera pitch from a gyroscope.
+- **CSV logging:** per-cone camera, LiDAR and fused results saved for offline analysis.
+- **Tuning scripts:** record ground truth, record detections, sweep parameters and plot the errors.
+- **Standalone camera node:** publishes both cameras and their pitch on their own, for bench testing.
 
 ## Next: a learned LiDAR-only detector (PointPillars)
 

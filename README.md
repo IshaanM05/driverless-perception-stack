@@ -22,30 +22,27 @@ One node runs one of **five modes**, chosen by two parameters (platform and pipe
 
 ![What the car senses](assets/car_senses.png)
 
+## Where it sits in the stack
+
+```
+ cameras ─┐                                   ┌─> SLAM (map + pose)
+          ├─> PERCEPTION ─> cone list ───────┤
+ LiDAR  ──┘     ^                             └─> planner
+                └──── pose from SLAM (motion compensation)
+```
+
 ## Contents
 
 | Doc | Topic |
 |---|---|
+| [Architecture](docs/00-architecture.md) | Node design, data flow, threading, synchronisation, interfaces |
 | [Python to C++](docs/01-python-to-cpp.md) | What the old pipeline did and why it was rebuilt |
-| [Camera branch](docs/02-camera-branch.md) | Detection, IPM depth, pitch correction |
-| [LiDAR branch](docs/03-lidar-branch.md) | ROI, ground removal, clustering, cone checks, colour |
-| [Fusion](docs/04-fusion.md) | Uncertainty-aware matching and blending |
-| [Tooling and what's next](docs/05-tooling-and-next.md) | Tuning tools and the PointPillars prototype |
-
-## My contributions
-
-From the commit history of the package, in rough order:
-
-- **Jan 2026:** first working dual-fusion run on a rosbag; real-life mono depth fixes; LiDAR driver and clustering parameter tuning; package split from the Python code.
-- **Feb 2026:** new camera-to-LiDAR association with uncertainty-aware matching, a fusion configuration override, and a tuning workflow for its parameters.
-- **Mar-Apr 2026:** configuration moved out of headers into YAML; a static log dashboard; a ground-removal alternative explored; configs for the D1 platform tuned on recorded bags.
-- **May-Jun 2026:** LiDAR-only fallback, thread and core handling in clustering, inverse-perspective-mapping (IPM) depth with dynamic pitch, and a gyroscope-based pitch tool.
-
-## Honest status
-
-- There are no saved latency or accuracy benchmarks for the C++ pipeline yet. Measuring them is the first next step.
-- The learned LiDAR detector (PointPillars) is a prototype on recorded data, not deployed.
-- Some configuration flags (for example IPM and vision pitch correction) are toggled per platform and run.
+| [Camera branch](docs/02-camera-branch.md) | Detection, box validation, IPM depth, pitch correction, camera-to-car frame |
+| [LiDAR branch](docs/03-lidar-branch.md) | ROI, ground removal, clustering, cone checks, colour classification |
+| [Fusion](docs/04-fusion.md) | Uncertainty-aware matching, blending, status of each cone |
+| [Tooling and what's next](docs/05-tooling-and-next.md) | Tuning and debug tools, the PointPillars prototype |
+| [Configuration and platforms](docs/06-configuration-and-platforms.md) | One config per vehicle or simulator, what is tunable |
+| [Glossary](docs/07-glossary.md) | Terms used across the docs |
 
 ## Stack
 
